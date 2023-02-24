@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vite + React + TS</title>
+    <script src="https://resources.amazonwebapps.com/v1/latest/Amazon-Web-App-API.min.js"></script>
+  </head>
+
+  <script>
+    document.addEventListener('amazonPlatformReady', function () {
+    //API code goes here
+      console.log("Now connected to Firetv api")
+      document.addEventListener("pause", function (){ console.log("PRESSED PAUSE")}, false);
+      document.addEventListener("resume", function (){console.log("PRESSED RESUME")}, false);
+
+      document.addEventListener("keydown",(e)=>{
+        
+        console.log("DPAD PRESSED",e.code);
+      })
+  },false);
+
+  </script>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
