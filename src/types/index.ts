@@ -1,25 +1,74 @@
+
+
 export interface IEAnime {
-    animeId: string;
-    animeImg: string;
-    animeTitle: string;
+    currentPage: number;
+    hasNextPage: boolean;
+    results: IEResult[]
 }
+
+export interface IEResult {
+    id: string;
+    title: string;
+    url: string;
+    image: string;
+    type: string;
+    hasSub: boolean;
+    hasDub: boolean;
+}
+
+
+
+
+
+
 
 
 export interface IEpisodesList {
-    episodeId: string;
-    episodeNum: string;
-    episodeUrl: string;
+    id: string;
+    dubId: string;
+    number: number;
+    isFiller: boolean;
 }
 
 export interface IAnimeDetail {
-    animeTitle: string;
+    title: string;
+    url: string;
+    jpTitle: string;
+    genres: any[];
+    image: string;
+    description: string;
     type: string;
-    releasedDate: string;
+    studios: string[];
+    releaseDate: string;
     status: string;
-    genres: string[];
-    otherNames: string;
-    synopsis: string;
-    animeImg: string;
-    totalEpisodes: string;
-    episodesList: IEpisodesList[];
+    score: number;
+    premiered: string;
+    duration: string;
+    views: number;
+    otherNames: string[];
+    hasSub: boolean;
+    hasDub: boolean;
+    totalEpisodes: number;
+    episodes: IEpisodesList[];
+}
+
+
+
+export interface IEWatchEpisodeSource {
+    url: string;
+    isM3U8: boolean;
+}
+
+
+export interface IWatchEpisode {
+    headers: {
+        Referer: string;
+        "User - Agent": string;
+    };
+    sources: IEWatchEpisodeSource[];
+    embedURL: string;
+    intro: {
+        start: number;
+        end: number;
+    }
 }

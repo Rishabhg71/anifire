@@ -19,15 +19,13 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { IAnimeDetail, IEAnime, IEpisodesList } from "../types";
 import LoadingIcon from "../components/Loading";
+import api from "../services/axios";
 
 function EpisodeList({}: { animeInfo: IEAnime }) {
   const params = useParams();
   const { data, isLoading } = useQuery<IAnimeDetail>({
-    queryFn: () =>
-      axios
-        .get(`https://gogoanime.consumet.stream/anime-details/${params.id}`)
-        .then((d) => d.data),
-    queryKey: ["GET_EPISODES"],
+    queryFn: () => api.get(`/info/${params.id}`).then((d) => d.data),
+    queryKey: ["GET_EPISODES", params.id],
   });
   if (isLoading) return <LoadingIcon />;
   console.log(data);
@@ -39,15 +37,15 @@ function EpisodeList({}: { animeInfo: IEAnime }) {
           <CardMedia
             component="img"
             height="140"
-            image={data?.animeImg}
+            image={data?.image}
             alt="green iguana"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
-              {data?.animeTitle}
+              {data?.title}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              {data?.synopsis.substring(0, 450)}......
+              {data?.description?.substring(0, 450)}......
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -55,7 +53,7 @@ function EpisodeList({}: { animeInfo: IEAnime }) {
 
       <div className="w-full">
         <List className="overflow-y-scroll h-full">
-          {data?.episodesList.map((el) => (
+          {data?.episodes.map((el) => (
             <EpisodeListItem episode={el} />
           ))}
         </List>
@@ -70,11 +68,11 @@ function EpisodeListItem({ episode }: { episode: IEpisodesList }) {
     <ListItem disablePadding>
       <ListItemButton
         onClick={() => {
-          navigate(`/episode/watch/${episode.episodeId}`);
+          navigate(`/episode/watch/${episode.id}`);
           console.log("CLIKED ON EPISODE");
         }}
       >
-        <ListItemText primary={episode.episodeId} />
+        <ListItemText primary={episode.number} />
       </ListItemButton>
     </ListItem>
   );
