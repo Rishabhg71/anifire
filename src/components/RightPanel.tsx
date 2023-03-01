@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import { IEAnime } from "../types";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import api from "../services/axios";
 import LoadingIcon from "./Loading";
 
 const RightPanel = () => {
-  const { isLoading, error, data } = useQuery<IEAnime[]>({
-    queryFn: () =>
-      axios
-        .get("https://gogoanime.consumet.stream/popular")
-        .then((d) => d.data),
+  const { isLoading, error, data } = useQuery<IEAnime>({
+    queryFn: () => api.get("/naruto").then((d) => d.data),
     queryKey: ["POPULAR"],
   });
 
@@ -19,8 +16,8 @@ const RightPanel = () => {
 
   return (
     <div className="flex flex-row flex-wrap">
-      {data?.map((anime) => {
-        return <Card animeInfo={anime} key={anime.animeId} />;
+      {data?.results.map((anime) => {
+        return <Card animeInfo={anime} key={anime.id} />;
       })}
     </div>
   );

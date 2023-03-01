@@ -62,7 +62,7 @@ export default function HeadNavbar() {
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            MUI
+            ANIFIRE 🔥
           </Typography>
           <Search>
             <SearchIconWrapper>
