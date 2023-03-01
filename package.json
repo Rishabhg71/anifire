@@ -17,8 +17,8 @@
     "axios": "^1.3.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-player": "^2.11.2",
     "react-router-dom": "^6.8.1",
-    "video.js": "^8.0.4",
     "zod": "^3.20.6"
   },
   "devDependencies": {
