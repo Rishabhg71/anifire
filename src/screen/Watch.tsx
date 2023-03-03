@@ -33,7 +33,7 @@ const WatchEpisode = () => {
         height="50em"
         width="90%"
         url={data?.sources[0].url}
-        controls={false}
+        controls={true}
         // light={<></>}
         previewTabIndex={1}
         playing={play}

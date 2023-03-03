@@ -7,7 +7,7 @@ import LoadingIcon from "./Loading";
 
 const RightPanel = () => {
   const { isLoading, error, data } = useQuery<IEAnime>({
-    queryFn: () => api.get("/naruto").then((d) => d.data),
+    queryFn: () => api.get("/recent-episodes").then((d) => d.data),
     queryKey: ["POPULAR"],
   });
 

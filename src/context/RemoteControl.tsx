@@ -36,10 +36,28 @@ export default function RemoteContolsContext({ children }: { children: any }) {
     );
   }, []);
 
+  const AmazonFireRemoteEvents = () => {
+    //API code goes here
+    console.log("Now connected to Firetv api");
+    // document.addEventListener("pause", function (){ console.log("PRESSED PAUSE")}, false);
+    // document.addEventListener("resume", function (){console.log("PRESSED RESUME")}, false);
+
+    // document.addEventListener("keydown",(e)=>{console.log("DPAD PRESSED",e.code);})
+  };
+
   useEffect(() => {
     window.addEventListener("keydown", handleUserKeyPress);
+    document.addEventListener(
+      "amazonPlatformReady",
+      AmazonFireRemoteEvents,
+      false
+    );
     return () => {
       window.removeEventListener("keydown", handleUserKeyPress);
+      document.removeEventListener(
+        "amazonPlatformReady",
+        AmazonFireRemoteEvents
+      );
     };
   }, [handleUserKeyPress]);
 
