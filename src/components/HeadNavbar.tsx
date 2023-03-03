@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import { useNavigate } from "react-router-dom";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -52,6 +53,8 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function HeadNavbar() {
+  const [term, setTerm] = React.useState("");
+  const navigate = useNavigate();
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -69,6 +72,14 @@ export default function HeadNavbar() {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
+              onChange={(e) => {
+                setTerm(e.target.value);
+              }}
+              onKeyDownCapture={(e) => {
+                if (e.key === "Enter" && term) {
+                  navigate(`/anime/search/${term}`);
+                }
+              }}
               placeholder="Search…"
               inputProps={{ "aria-label": "search" }}
             />
