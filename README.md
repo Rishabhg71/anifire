@@ -23,7 +23,7 @@ adb connect <ip addr of TV>
 
 
 ## Developement
-If you want to develop/add features you can do it easyly since its a React app made with ViteJs
+If you want to develop/add features you can do it easily since its a React app made with ViteJs<br>
 Context for easy control via FireTV remote is there
 
 #### Start the dev server
