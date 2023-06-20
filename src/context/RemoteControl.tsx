@@ -42,7 +42,9 @@ export default function RemoteContolsContext({ children }: { children: any }) {
     // document.addEventListener("pause", function (){ console.log("PRESSED PAUSE")}, false);
     // document.addEventListener("resume", function (){console.log("PRESSED RESUME")}, false);
 
-    // document.addEventListener("keydown",(e)=>{console.log("DPAD PRESSED",e.code);})
+    // document.addEventListener("keydown", (e) => {
+    //   console.log("DPAD PRESSED", e.code);
+    // });
   };
 
   useEffect(() => {

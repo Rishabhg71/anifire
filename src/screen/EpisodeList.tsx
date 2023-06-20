@@ -28,7 +28,6 @@ function EpisodeList({}: { animeInfo: IEAnime }) {
     queryKey: ["GET_EPISODES", params.id],
   });
   if (isLoading) return <LoadingIcon />;
-  console.log(data);
 
   return (
     <div className="text-slate-300 flex flex-row">
@@ -52,7 +51,7 @@ function EpisodeList({}: { animeInfo: IEAnime }) {
       </Card>
 
       <div className="w-full">
-        <List className="overflow-y-scroll h-full">
+        <List className="overflow-y-scroll h-96">
           {data?.episodes.map((el) => (
             <EpisodeListItem episode={el} />
           ))}
@@ -69,10 +68,10 @@ function EpisodeListItem({ episode }: { episode: IEpisodesList }) {
       <ListItemButton
         onClick={() => {
           navigate(`/episode/watch/${episode.id}`);
-          console.log("CLIKED ON EPISODE");
+          console.log("CLICKED ON EPISODE");
         }}
       >
-        <ListItemText primary={episode.number} />
+        <ListItemText primary={`Episode ${episode.number}`} />
       </ListItemButton>
     </ListItem>
   );
