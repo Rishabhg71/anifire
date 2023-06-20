@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 import Box from "@mui/material/Box";
@@ -20,9 +20,11 @@ import axios from "axios";
 import { IAnimeDetail, IEAnime, IEpisodesList } from "../types";
 import LoadingIcon from "../components/Loading";
 import api from "../services/axios";
+import WatchEpisode from "../components/VideoPlayer";
 
 function EpisodeList({}: { animeInfo: IEAnime }) {
   const params = useParams();
+  const [currentEpisode, setCurrentEpisode] = useState("");
   const { data, isLoading } = useQuery<IAnimeDetail>({
     queryFn: () => api.get(`/info/${params.id}`).then((d) => d.data),
     queryKey: ["GET_EPISODES", params.id],
@@ -53,22 +55,33 @@ function EpisodeList({}: { animeInfo: IEAnime }) {
       <div className="w-full">
         <List className="overflow-y-scroll h-96">
           {data?.episodes.map((el) => (
-            <EpisodeListItem episode={el} />
+            <EpisodeListItem
+              episode={el}
+              onClick={(v) => setCurrentEpisode(v)}
+            />
           ))}
         </List>
       </div>
+      <WatchEpisode episodeId={currentEpisode} />
     </div>
   );
 }
 
-function EpisodeListItem({ episode }: { episode: IEpisodesList }) {
+function EpisodeListItem({
+  episode,
+  onClick,
+}: {
+  episode: IEpisodesList;
+  onClick: (v: string) => void;
+}) {
   const navigate = useNavigate();
   return (
     <ListItem disablePadding>
       <ListItemButton
         onClick={() => {
-          navigate(`/episode/watch/${episode.id}`);
-          console.log("CLICKED ON EPISODE");
+          // navigate(`/episode/watch/${episode.id}`);
+          // console.log("CLICKED ON EPISODE");
+          onClick(episode.id);
         }}
       >
         <ListItemText primary={`Episode ${episode.number}`} />
