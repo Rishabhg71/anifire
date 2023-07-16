@@ -29,10 +29,16 @@ const WatchEpisode = ({ episodeId }: { episodeId: string }) => {
   //   }, []);
   useEffect(() => {
     remote.registerEvent((e) => {
-      // ref.current?.setAttribute("hidden", "true");
       ref.current?.pause();
-      // videoContainer.current?.appendChild(document.createElement("video"));
-    }, "BACK_REMOVE_VIDEO_ELEMENT");
+    }, "BACK_VIDEO_PAUSE");
+    remote.registerEvent((e) => {
+      if (ref.current) {
+        if (e === "forward")
+          ref.current.currentTime = ref.current.currentTime + 10;
+        if (e === "backward")
+          ref.current.currentTime = ref.current.currentTime - 10;
+      }
+    }, "FORWARD_BACKWARD");
   }, []);
   useEffect(() => {
     const hls = new Hls();
@@ -58,6 +64,7 @@ const WatchEpisode = ({ episodeId }: { episodeId: string }) => {
       hls.loadSource(loadSource);
       hls.attachMedia(ref.current);
       ref.current.play();
+
       ref.current.requestFullscreen();
       // addEventListener("fullscreenchange", (event) => {
       //   console.log(event.);
