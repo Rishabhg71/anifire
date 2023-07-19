@@ -6,6 +6,7 @@ type RemoteEventType =
   | "up"
   | "down"
   | "play-pause"
+  | "go-back"
   | null;
 
 export const ControlsContext = React.createContext({
@@ -29,6 +30,7 @@ export default function RemoteContolsContext({ children }: { children: any }) {
     if (key === "ArrowLeft") e = "backward";
     if (key === "ArrowDown") e = "down";
     if (key === "ArrowUp") e = "up";
+    if (key === "GoBack") e = "go-back";
     if (key === " ") e = "play-pause";
 
     Object.keys(eventFunctions.current).map((key) =>

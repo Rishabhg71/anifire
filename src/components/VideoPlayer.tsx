@@ -22,54 +22,58 @@ const WatchEpisode = ({ episodeId }: { episodeId: string }) => {
   });
   const remote = useContext(ControlsContext);
 
-  //   useEffect(() => {
-  //     remote.registerEvent((e) => {
-  //       if (e === "play-pause") ref.current?.play();
-  //     }, "WATCH_PAGE");
-  //   }, []);
   useEffect(() => {
     remote.registerEvent((e) => {
-      ref.current?.pause();
-    }, "BACK_VIDEO_PAUSE");
-    remote.registerEvent((e) => {
       if (ref.current) {
+        if (e === "go-back") ref.current?.pause();
         if (e === "forward")
           ref.current.currentTime = ref.current.currentTime + 10;
         if (e === "backward")
           ref.current.currentTime = ref.current.currentTime - 10;
+
+        if (e === "play-pause") {
+          if (ref.current?.paused) {
+            ref.current?.play();
+          } else {
+            ref.current?.pause();
+          }
+        }
       }
-    }, "FORWARD_BACKWARD");
+    }, "VIDEO_PLAYER_CONTROLS");
   }, []);
   useEffect(() => {
-    const hls = new Hls();
-    if (data && ref.current) {
-      const sourcesSorted: { [key: string]: string } = {};
-      data?.sources.forEach((el) => {
-        sourcesSorted[el.quality] = el.url;
-      });
-      let loadSource = "";
-      if (sourcesSorted["360p"]) {
-        loadSource = sourcesSorted["360p"];
+    const startVideoStream = async () => {
+      const hls = new Hls();
+      if (data && ref.current) {
+        const sourcesSorted: { [key: string]: string } = {};
+        data?.sources.forEach((el) => {
+          sourcesSorted[el.quality] = el.url;
+        });
+        let loadSource = "";
+        if (sourcesSorted["360p"]) {
+          loadSource = sourcesSorted["360p"];
+        }
+        if (sourcesSorted["480p"]) {
+          loadSource = sourcesSorted["480p"];
+        }
+        if (sourcesSorted["720p"]) {
+          loadSource = sourcesSorted["720p"];
+        }
+        if (sourcesSorted["1080p"]) {
+          loadSource = sourcesSorted["1080p"];
+        }
+        console.log(loadSource);
+        hls.loadSource(loadSource);
+        hls.attachMedia(ref.current);
+        await ref.current.play().then(() => {});
+        try {
+          await ref.current.requestFullscreen();
+        } catch (e) {
+          console.error(e);
+        }
       }
-      if (sourcesSorted["480p"]) {
-        loadSource = sourcesSorted["480p"];
-      }
-      if (sourcesSorted["720p"]) {
-        loadSource = sourcesSorted["720p"];
-      }
-      if (sourcesSorted["1080p"]) {
-        loadSource = sourcesSorted["1080p"];
-      }
-      console.log(loadSource);
-      hls.loadSource(loadSource);
-      hls.attachMedia(ref.current);
-      ref.current.play();
-
-      ref.current.requestFullscreen();
-      // addEventListener("fullscreenchange", (event) => {
-      //   console.log(event.);
-      // });
-    }
+    };
+    startVideoStream();
   }, [data?.sources]);
 
   if (isLoading) return <LoadingIcon />;
@@ -79,7 +83,13 @@ const WatchEpisode = ({ episodeId }: { episodeId: string }) => {
       className="align-middle flex justify-center flex-col text-white"
       ref={videoContainer}
     >
-      <video ref={ref} controls={false} />
+      <video
+        onFocus={(e) => e.preventDefault()}
+        ref={ref}
+        controls={false}
+        // onKeyDown={(e) => e.preventDefault()}
+        // on
+      />
     </div>
   );
 };

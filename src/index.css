@@ -6,3 +6,7 @@ body {
     background-color: #202125;
     height: 100%;
 }
+
+/* video::-webkit-media-controls-enclosure {
+    display:none !important;
+} */
